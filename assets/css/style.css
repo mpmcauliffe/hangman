@@ -15,6 +15,7 @@ body {
     background-image: url("../images/antique-forum.jpg");
     background-image: url("../images/antique-babylon.jpg");
     background-image: url("../images/antique-artemis.jpg");
+    background-repeat: no-repeat;
     background-position: center;
 }
 .top-half{
@@ -39,31 +40,42 @@ body {
 /* GUESS FILL      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 .scroll {
+    display: flex;
     height: 20vh;
     width: 97%;
-    /* background-image: url("../images/scroll.png"); */
     align-self: center;
+    justify-content: center;
     margin-bottom: 2rem;
     background-position: center;
     border-radius: 1rem;
     border: .1rem solid #9a9a9a;
     background: rgba(150, 100, 100, .4);
-    /* background: rgba(152, 52, 219, .4); */
-    /* background-color: rgba(150, 175, 251, .5); */
-    /* background-color: rgba(150, 251, 150, .5); */
-    
 }
+.scroll-fill {
+    font-family: 'Special Elite', cursive;
+    font-size: 1260%;
+    color: rgb(216, 219, 52);
+    text-shadow: 0 0 1.2rem rgba(0,0,0, 1);
+
+}
+
 
 /* LETTERS CALLED  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 .fill-array {
+    display: flex;
     height: 10vh;
-    width: 95%;
-    /* background-image: url("../images/plank.png"); */
+    width: 63%;
+    justify-content: center;
     border-radius: 1rem;
     align-self: center;
     border: .1rem solid #9a9a9a;
     background: rgba(100, 100, 150, .4);
+}
+.inner-fill {
+    font-family: 'Asap', sans-serif;
+    font-size: 700%;
+    color: rgba(219, 52, 152, .6);
 }
 
 
@@ -89,8 +101,6 @@ body {
     flex-wrap: wrap;
     flex: 1 1 20%;
     border: .1rem solid #9a9a9a;
-    /* background: rgba(152, 52, 219, .3); */
-    /* background: rgba(52, 219, 152, .4); */
     background: rgba(100, 100, 150, .4);
     border-radius: 1rem;
     padding: 2rem;
@@ -201,15 +211,44 @@ body {
 }
 
 
+/*====================================================================================*/
+/*==========================    MEDIA QUERIES     ====================================*/
+/*====================================================================================*/
 
-
-@media all and (max-width: 768px) {
+@media all and (max-width: 1200px) {
   .title h1 {
     font-size: 800%;
   }
-  
+  .lower-half{
+      flex-wrap: wrap;
+  }
+  .middle {
+      order: 0;
+  }
+  .left {
+    order: 1;
+    flex-wrap: nowrap;
+  }
+  .right {
+      order: 2;
+  }
+  .top-half {
+    flex-basis: 5rem;
+  }
+}
+@media all and (max-width: 768px) {
+  .title h1 {
+    font-size: 600%;
+  }
+  .middle {
+      order: 0;
+  }
   .left {
     order: 0;
+    flex-wrap: wrap;
+  }
+  .right {
+      order: 1;
   }
   .top-half {
     flex-basis: 5rem;
