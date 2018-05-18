@@ -7,8 +7,12 @@ html {
     font-size: 62.5%;
 }
 body {
+    display: flex;
+    flex-direction: column;
     min-height: 100vh;
-    background: #2c3e50;
+    background: #2469fc;
+    background-image: url("../images/antique-pompeii.jpg");
+    background-image: url("../images/antique-forum.jpg");
 }
 .top-half{
     display: flex;
@@ -18,61 +22,74 @@ body {
 .title h1 {
     font-family: 'Kalam', cursive;
     font-size: 1431%;
-    color: #fafafa;
+    color: #fff;
     letter-spacing: 4rem;
     text-align: center;
     line-height: 131%;
-}
+    text-shadow: 0 0 1.2rem rgba(0,0,0, 1);
+}   
+
 .scroll {
     height: 20vh;
     width: 97%;
-    border-radius: 1rem;
-    border: .3rem solid green;
-    background-color: lightgrey;
+    /* background-image: url("../images/scroll.png"); */
     align-self: center;
+    margin-bottom: 2rem;
+    background-position: center;
+    border-radius: 1rem;
+    border: .1rem solid #9a9a9a;
+    background: rgba(255, 219, 219, .4);
+    /* background: rgba(152, 52, 219, .4); */
+    /* background-color: rgba(150, 175, 251, .5); */
+    /* background-color: rgba(150, 251, 150, .5); */
+    
 }
 .fill-array {
     height: 10vh;
     width: 95%;
+    /* background-image: url("../images/plank.png"); */
     border-radius: 1rem;
-    border: .3rem solid blue;
-    background-color: beige;
     align-self: center;
+    border: .1rem solid #9a9a9a;
+    background: rgba(219, 219, 255, .4);
 }
 .lower-half {
     display: flex;
     flex-basis: 110rem;
     height: 43vh;
     flex-wrap: nowrap;
+    padding: 1rem;
 }
 .left {
     flex: 1 1 20%;
-    border: .3rem solid lightgrey;
-    background: #9834db;
+    border: .1rem solid #9a9a9a;
+    /* background: rgba(152, 52, 219, .3); */
+    /* background: rgba(52, 219, 152, .4); */
+    background: rgba(219, 219, 255, .4);
     border-radius: 1rem;
     order: -1;
-    flex-wrap: wrap;
 }
 .middle {
     flex: 4 0 60%;
-    border: .3rem solid lightgrey;
-    background: #3498db;
-    border-radius: 1rem;
-    flex-wrap: wrap;
+    border: .1rem solid #9a9a9a;
+    background: rgba(255, 219, 219, .4);
+    /* background: rgba(52, 152, 219, .4); */
+    border-radius: 1rem;   
 }
 .right {
     flex: 1 1 20%;
-    border: .3rem solid lightgrey;
-    background: #34db98;
+    border: .1rem solid #9a9a9a;
+    /* background: rgba(52, 219, 152, .4); */
+    /* background: rgba(152, 52, 219, .3); */
+    background: rgba(219, 219, 255, .4);
     border-radius: 1rem;
-    flex-wrap: wrap;
 }
 
 
 
 @media all and (max-width: 768px) {
   .title h1 {
-    font-size: 200%;
+    font-size: 800%;
   }
   
   .left {
