@@ -6,6 +6,7 @@
         <link href="https://fonts.googleapis.com/css?family=Asap:400,700|Kalam:400,700|Special+Elite"
             rel="stylesheet">
         <link rel='stylesheet' type='text/css' href='assets/css/style.css'>
+        <link rel='shrotcut icon' type='image/x-icon' href='assets/images/favicon.ico' />
     </head>
     <body>
         <header>
@@ -21,9 +22,46 @@
         </header>
         <section> 
             <div class="lower-half">      
-                <nav class="left"></nav>
-                <article class="middle"></article>
-                <side class="right"></side>
+                <nav class="left">
+                    <div class="stat-list">
+                        <ul>
+                            <li>letter score</li>
+                            <li>word score</li>
+                            <li>tries remaining</li>
+                            <li>words missed</li>
+                        </ul>
+                    </div>
+                    <div class="stats">
+                        <ul>
+                            <li>X</li>
+                            <li>X</li>
+                            <li>X</li>
+                            <li>X</li>
+                        </ul>
+                    </div>
+                    <button class="btn easy">reset easy</button>
+                    <button class="btn hard">reset hard</button>
+                </nav>
+                <article class="middle">
+                    <div class="letter-pick">
+                        <strong>X</strong>
+                    </div>
+                    <div class="question">
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing
+                        elit. Architecto dolores quae ex veniam aliquid?</p>
+                    </div>
+                </article>
+                <side class="right">
+                    <div class="right-text">
+                        <strong>HINT:</strong>
+                        <div id="hint">
+                            <p>Lorem ipsum, dolor sit amet consectetur adipisicing
+                            elit. Aliquid accusantium natus quis modi quia
+                            architecto.</p>
+                        </div>
+                    </div>
+                    <button class="btn reset-hint" id="update-hint">Another Hint</button>
+                </side>
             </div>
         </section>
         <script type='text/javascript' src='assets/javascript/game.js'></script>

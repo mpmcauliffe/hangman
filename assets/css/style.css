@@ -10,14 +10,16 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background: #2469fc;
+    background: #000;
     background-image: url("../images/antique-pompeii.jpg");
     background-image: url("../images/antique-forum.jpg");
+    background-image: url("../images/antique-babylon.jpg");
+    background-image: url("../images/antique-artemis.jpg");
+    background-position: center;
 }
 .top-half{
     display: flex;
     flex-direction: column;
-    justify-content: center;
 }
 .title h1 {
     font-family: 'Kalam', cursive;
@@ -27,8 +29,15 @@ body {
     text-align: center;
     line-height: 131%;
     text-shadow: 0 0 1.2rem rgba(0,0,0, 1);
-}   
+} 
 
+
+/*====================================================================================*/
+/*==========================    FILL PORTIONS     ====================================*/
+/*====================================================================================*/
+
+/* GUESS FILL      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 .scroll {
     height: 20vh;
     width: 97%;
@@ -38,12 +47,15 @@ body {
     background-position: center;
     border-radius: 1rem;
     border: .1rem solid #9a9a9a;
-    background: rgba(255, 219, 219, .4);
+    background: rgba(150, 100, 100, .4);
     /* background: rgba(152, 52, 219, .4); */
     /* background-color: rgba(150, 175, 251, .5); */
     /* background-color: rgba(150, 251, 150, .5); */
     
 }
+
+/* LETTERS CALLED  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 .fill-array {
     height: 10vh;
     width: 95%;
@@ -51,39 +63,143 @@ body {
     border-radius: 1rem;
     align-self: center;
     border: .1rem solid #9a9a9a;
-    background: rgba(219, 219, 255, .4);
+    background: rgba(100, 100, 150, .4);
 }
+
+
+/*====================================================================================*/
+/*==========================    LOWER PORTION     ====================================*/
+/*====================================================================================*/
+
+/* LOWER CONTAINER ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 .lower-half {
+    font-family: 'Asap', sans-serif;
     display: flex;
+    flex-direction: row;
     flex-basis: 110rem;
     height: 43vh;
     flex-wrap: nowrap;
     padding: 1rem;
 }
+
+/* LOWER LEFT      ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 .left {
+    display: flex;
+    flex-wrap: wrap;
     flex: 1 1 20%;
     border: .1rem solid #9a9a9a;
     /* background: rgba(152, 52, 219, .3); */
     /* background: rgba(52, 219, 152, .4); */
-    background: rgba(219, 219, 255, .4);
+    background: rgba(100, 100, 150, .4);
     border-radius: 1rem;
+    padding: 2rem;
     order: -1;
 }
+.box-stat {
+    width: 100%;
+    height: 60%;
+}
+.left ul {
+    display: inline;
+    margin: 0;
+    list-style: none;
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 5rem;
+    color: #303415;
+    text-shadow: 0 0 1rem rgba(255,255,255, 1);
+}
+.stat-list {
+    height: 60%;
+    width: 70%;
+    margin-right: 2rem;
+    /* border: 1px solid #000; */
+}
+.stats {
+    float: right;
+}
+.btn {
+    color:  #303415;
+    font-size: 1.8rem;
+    padding: .5rem 1.4rem;
+    border-radius: 4rem;
+    border: .1rem solid  #303415;
+    background: transparent;
+}
+.easy {
+    background: rgba(52, 219, 152, .4);
+    margin-right: 4rem
+}
+.easy:hover {
+    cursor: pointer;
+    background: rgba(52, 219, 152, .8);
+    box-shadow: 0 0 1.2rem rgba(0,0,0, 1);
+}
+.hard {
+    background: rgba(219, 52, 152, .4);
+}
+.hard:hover {
+    cursor: pointer;
+    background: rgba(219, 52, 152, .8);
+    box-shadow: 0 0 1.2rem rgba(0,0,0, 1);
+}
+
+/* LOWER MIDDLE    ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 .middle {
-    flex: 4 0 60%;
+    display: flex;
+    flex: 4 0 55%;
+    padding: 4.5rem 2rem;
     border: .1rem solid #9a9a9a;
-    background: rgba(255, 219, 219, .4);
+    background: rgba(150, 100, 100, .4);
     /* background: rgba(52, 152, 219, .4); */
     border-radius: 1rem;   
+    justify-content: space-between;
 }
+.letter-pick {
+    font-family: 'Special Elite', cursive;
+    display: inline;
+    margin: 0;
+    font-size: 3749%;
+    color: rgba(52, 219, 152, .9);
+    text-shadow: 0 0 1.2rem rgba(0,0,0, 1);
+}
+.question {
+    font-family: 'Asap', sans-serif;
+    width: 66%;
+    font-size: 4rem;
+    color: #000;
+    float: right;
+    text-shadow: 0 0 1rem rgba(255,255,255, 1);
+    align-self: center;
+}
+/* LOWER RIGHT   ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 .right {
+    display: flex;
+    flex-wrap: wrap;
     flex: 1 1 20%;
+    padding: 2rem;
     border: .1rem solid #9a9a9a;
     /* background: rgba(52, 219, 152, .4); */
     /* background: rgba(152, 52, 219, .3); */
-    background: rgba(219, 219, 255, .4);
+    background: rgba(100, 100, 150, .4);
     border-radius: 1rem;
 }
+.right-text {
+    font-size: 3rem;
+    line-height: 3rem;
+    color: #303415;
+    text-shadow: 0 0 1rem rgba(255,255,255, 1);
+}
+.reset-hint {
+    margin: 0 auto;
+    background: rgba(216, 219, 52, 0.4);
+}
+.reset-hint:hover {
+    cursor: pointer;
+    background: rgba(216, 219, 52, 0.8);
+}
+
 
 
 
