@@ -68,10 +68,7 @@ let dataController = (() => {
 
 let UIcontroller = (() => {
 
-    let DOMelements = {
-        
-
-    }
+    
     return {
         displayInitialScores: function(initScores) {
             let scoreList = document.querySelector(`.stats`).getElementsByTagName('li'),
@@ -118,6 +115,25 @@ let UIcontroller = (() => {
 
 let mainController = ((dataCon, UIcon) => {
     
+    let elementValues = {
+        //scroll
+        item1: {
+                keyPair: ["","",""]
+            },
+        //score list
+        itme2: {
+                keyPair: []
+        },
+        //lower center
+        item3: {
+                keyPair: ["","",""]
+        },
+        //hint
+        item4: {
+                keyPair: ""
+        }
+    }
+
     let setObject = () => {
         let gameObject = dataCon;
         return gameObject;
@@ -127,7 +143,6 @@ let mainController = ((dataCon, UIcon) => {
         document.addEventListener(`keyup`, (event) => {
             let x          = event.which || event.key,
                 inputValue = String.fromCharCode(x);
-            inputValue = inputValue.toLowerCase();
             
             evaluateInput(inputValue);
         });
@@ -160,27 +175,58 @@ let mainController = ((dataCon, UIcon) => {
                 thread++; 
             }
         }
+        let lettersUsed = "_ _ _ _ _ _ _ _ _"
 
-        let openArray = [initialScroll, loadString];
-
-        return openArray;
+        elementValues.item1.keyPair = [initialScroll, loadString, lettersUsed];
     }
 
-    let sendQuestion = () => {
-        UIcon.postQuestion(gameObject.question);
+    let setQuestion = () => {
+        let gameObject = setObject();
+        elementValues.item3.keyPair[1] = gameObject.question;
     }
     
     let loadHint = () => {
         let gameObject      = setObject();
             indexRandomHint = Math.floor(Math.random() * 3),
             hintRandom      = gameObject.hint[indexRandomHint];
-        UIcon.printHint(hintRandom);
+        elementValues.item4.keyPair = hintRandom;
     }
     let evaluateInput = (inputValue) => {
-       
         inputValue = inputValue.toUpperCase();
-        let mainWord = createScrollString();
-        console.log(mainWord);
+        let constructWord = elementValues.item1.keyPair[0],
+            letterSet     = elementValues.item1.keyPair[1],
+            lettersUsed   = elementValues.item1.keyPair[2],
+            message       = "",
+            scoreCode     = 5;
+
+        let testLetter1 = letterSet.includes(inputValue),
+            testLetter2 = letterSet.includes(inputValue),
+            inputCheck  = 0;
+
+        if(!testLetter1 && !testLetter2) {
+            for(let i = 0; i < constructWord.length; i++){
+                if(inputValue === constructWord.indexOf(i)) {
+                    letterSet.indexOf(i) = inputValue;
+                    inputCheck++;
+                }
+            }
+            if(inputCheck > 0){
+                 message = "Correct!"
+                 scoreCode = 1;
+            }
+        }
+        if(inputCheck === 0 || testLetter1 || testLetter2) {
+            lettersUsed = lettersUsed.replace("_", inputValue);
+            message = "Incorrect";
+        }
+        
+        elementValues.item1.keyPair = [constructWord, letterSet, lettersUsed];
+    }
+
+    let setScores = (scoreCode) => {
+        if (elementValues.itme2.keyPair[0] === null) {
+            elementValues.itme2.keyPair = [0,0,9,0];
+        }
     }
 
 
@@ -203,16 +249,12 @@ let mainController = ((dataCon, UIcon) => {
 
     return {
         initialize: function () {
-            console.log('Word Guess has started');
-            UIcon.displayInitialScores({
-                letter: 0,
-                word: 0,
-                tries: 9,
-                missed: 0
-            });
+            console.log('Word Guess started');
+            elementValues.itme2.keyPair = [null,null,null,null];
             loadHint();
-            sendQuestion();
-            UIcon.startLetterPicker(0);
+            setScores();
+            setQuestion();
+            //UIcon.startLetterPicker(0);
             setupEventListeners();
         }
     }
