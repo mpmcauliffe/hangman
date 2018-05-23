@@ -44,100 +44,86 @@ let dataController = (() => {
                 "This general's name has 3 distinct vowels in it."]
         }
     }
-
-    let parseObject = function(){
-        let indexRandomProperty = Math.floor(Math.random() * 4) + 1,
-            propertyName    = `word${indexRandomProperty}`;
-           
-        let randomObject = {
-            name: wordObject[propertyName].name,
-            question: wordObject[propertyName].question,
-            hint: wordObject[propertyName].hint
+    return {
+        parseObject: function(){
+            let indexRandomProperty = Math.floor(Math.random() * 4) + 1,
+                propertyName    = `word${indexRandomProperty}`;
+            
+            let randomObject = {
+                name: wordObject[propertyName].name,
+                question: wordObject[propertyName].question,
+                hint: wordObject[propertyName].hint
+            }
+            return randomObject;   
         }
-        return randomObject;   
-    }
-    return parseObject();
-    
+    }  
 })();
 
    
 //let wordArray = ["pompeii", "hippocrates", "persephone", "hannibal"],
-
-
-
-
+/* INTERNAL CALL INSTANT & MAINCONTROLLER
+    wordObject created that contains all data with the property word<number>
+        nested in the word property are 3 properties of name (the answer to word guess),
+        question (the question provieded to guess the name), and hint (an array of 3 hints
+        randomly provided in easy mode).
+    parseObject is a function of DATACONTROLLER that randomizes the word<number> property
+        and the hint array. This function also collects name data and the answer data.
+    RETURNS an object to MAINCONTROLLER called randomObject
+            randomObject consist of 1 first level property of wordObject and its sub-
+            properties with it */
 let UIcontroller = (() => {
-
-    
     return {
-        displayInitialScores: function(initScores) {
-            let scoreList = document.querySelector(`.stats`).getElementsByTagName('li'),
-                        i = 0;
-            for (let key in initScores) {
-                scoreList[i].innerHTML = initScores[key];
-                i++;
-            }
+        updateScroll: function(scrollStrings) {
+            document.getElementById(`word`).innerHTML = scrollStrings[1];
+            document.getElementById(`inputs`).innerHTML = scrollStrings[2];
+        },
+    
+        displayScores: function(scores) {
+            document.getElementById(`word-score`).innerHTML =  scores[0];
+            document.getElementById(`tries-remaining`).innerHTML = scores[1];
+        },
+        updateCenter: function(center) {
+            document.querySelector(`.letter-pick`).innerHTML = center[0];
+            document.querySelector(`.question`).innerHTML = center[1];
             
-        },
-        postQuestion: function(question) {
-            document.querySelector(`.question`).innerHTML = question;
-        },
-        startLetterPicker: function(holder) {
-            if(holder === 0){
+            setTimeout(() => {
                 document.querySelector(`.letter-pick`).innerHTML = "_";
-            } else {
-                document.querySelector(`.letter-pick`).innerHTMl = holder;
-            }
+            }, 3500);
         },
-        printHint: function(newHint) { 
+        printHint: function(newHint) {
+            console.log(newHint) 
             document.getElementById(`hint`).innerHTML = newHint;
         },
         outputMessage: function(option) {
-            let messageOut = document.querySelector(`message`);
-            if (option === 0) {
-                messageOut.classList.remove(`.log`);
-                messageOut = `please enter a letter`;
-            }
-        },
-        updateLoadString: function (usedCharElement, fillOption) {
-
+            let messageOut = document.querySelector(`message`);    
+            messageOut.classList.remove(`.log`);
+            messageOut.innerHTML = option;
+            
+            setTimeout(() => {
+                messageOut.classList.add(`.log`);
+            }, 3500);
         }
     }
-    // for (let i = 0; i < nameRandom.length; i++) {
-    //     nameRandom[i] = "_"
-    // }
-
-    // document.getElementById(`query`).textContent = wordObject[nameRandom].question;
-    // document.getElementById(`hint`).textContent = hintRandom; 
-
 })();
 
 
 let mainController = ((dataCon, UIcon) => {
     
-    let elementValues = {
-        //scroll
-        item1: {
-                keyPair: ["","",""]
-            },
-        //score list
-        itme2: {
-                keyPair: []
-        },
-        //lower center
-        item3: {
-                keyPair: ["","",""]
-        },
-        //hint
-        item4: {
-                keyPair: ""
-        }
+    let setObject = () => {
+        gameObject = dataCon.parseObject();
     }
 
-    let setObject = () => {
-        let gameObject = dataCon;
-        return gameObject;
-    }
+    let elementValues = {
+        //scroll
+        scroll: ["","",""],
+        //score list
+        scores: [0, 0],
+        //lower center
+        center: ["","",""],
+        //hint
+        hint:  ""
+    } 
+   
     let setupEventListeners = () => {
 
         document.addEventListener(`keyup`, (event) => {
@@ -146,7 +132,6 @@ let mainController = ((dataCon, UIcon) => {
             
             evaluateInput(inputValue);
         });
-
 
         document.querySelector(`.reset-hint`).addEventListener(`click`, () => {
             loadHint();
@@ -157,112 +142,144 @@ let mainController = ((dataCon, UIcon) => {
         /* iterates through name propert adding spaces
             between every odd underscore to initially print
             to the DOM */
-
-        let gameObject      = setOject();
-            parseName       = gameObject.name,
+        
+        let parseName       = gameObject.name,
             initialScroll   = "",
             loadString      = "",
             spaceLength     = (parseName.length * 2) - 1,
             thread          = 0;
-
+        console.log(parseName)
         for(let i = 0; i < spaceLength; i++) {
             if(i > 0 && i % 2 !== 0) {
                 initialScroll += " ";
-                loadString    += " ";
+                loadString += " ";
             } else {
                 initialScroll += parseName.charAt(thread);
                 loadString    += "_"
                 thread++; 
             }
         }
-        let lettersUsed = "_ _ _ _ _ _ _ _ _"
+        initialScroll = initialScroll.toUpperCase();
+        let lettersUsed = "_ _ _ _ _ _ _ _ _";
 
-        elementValues.item1.keyPair = [initialScroll, loadString, lettersUsed];
-    }
-
-    let setQuestion = () => {
-        let gameObject = setObject();
-        elementValues.item3.keyPair[1] = gameObject.question;
-    }
+        elementValues.scroll = [initialScroll, loadString, lettersUsed];
     
+        UIcon.updateScroll(elementValues.scroll);
+    }
+
+    let setCenter = () => {
+        elementValues.center[0] = `_`
+        elementValues.center[1] = gameObject.question;
+        UIcon.updateCenter(elementValues.center);
+    }
     let loadHint = () => {
-        let gameObject      = setObject();
-            indexRandomHint = Math.floor(Math.random() * 3),
-            hintRandom      = gameObject.hint[indexRandomHint];
-        elementValues.item4.keyPair = hintRandom;
+            let indexRandomHint = Math.floor(Math.random() * 3);
+                elementValues.hint = gameObject.hint[indexRandomHint];
+    
+        UIcon.printHint(elementValues.hint);
     }
     let evaluateInput = (inputValue) => {
-        inputValue = inputValue.toUpperCase();
-        let constructWord = elementValues.item1.keyPair[0],
-            letterSet     = elementValues.item1.keyPair[1],
-            lettersUsed   = elementValues.item1.keyPair[2],
-            message       = "",
-            scoreCode     = 5;
+        let constructWord = elementValues.scroll[0],
+            letterSet     = elementValues.scroll[1],
+            lettersUsed   = elementValues.scroll[2],
+            message       = "";
 
         let testLetter1 = letterSet.includes(inputValue),
-            testLetter2 = letterSet.includes(inputValue),
+            testLetter2 = lettersUsed.includes(inputValue),
             inputCheck  = 0;
 
-        if(!testLetter1 && !testLetter2) {
-            for(let i = 0; i < constructWord.length; i++){
-                if(inputValue === constructWord.indexOf(i)) {
-                    letterSet.indexOf(i) = inputValue;
-                    inputCheck++;
+        if (inputValue !== "_") {
+            if(!testLetter1 && !testLetter2) {
+                for(let i = 0; i < constructWord.length; i++){
+                    if(inputValue === constructWord[i]) {
+                        letterSet.replace("_", inputValue); 
+                        inputCheck++;
+                    }
                 }
-            }
-            if(inputCheck > 0){
-                 message = "Correct!"
-                 scoreCode = 1;
+                if (inputCheck > 0) {
+                    message = "Correct!"
+                }
+            }        
+            if(inputCheck === 0 || testLetter1 || testLetter2) {
+                lettersUsed = lettersUsed.replace("_", inputValue);
+                message = "Incorrect";
+                setScores(1);
             }
         }
-        if(inputCheck === 0 || testLetter1 || testLetter2) {
-            lettersUsed = lettersUsed.replace("_", inputValue);
-            message = "Incorrect";
+        if(letterSet === constructWord) {
+            message = "You guessed it!";
+            setScores(2);
+        } else if (lettersUsed.indexOf("_") === -1) {
+            message = "You missed it."
+            setScores(3);
         }
+
+        elementValues.scroll = [constructWord, letterSet, lettersUsed];
+        elementValues.center[0] = inputValue;
+
+        UIcon.updateCenter(elementValues.center);
         
-        elementValues.item1.keyPair = [constructWord, letterSet, lettersUsed];
+
+        setTimeout(() => {
+            UIcon.outputMessage(message);
+        }, 1000);
+        
+        setTimeout(() => {
+            UIcon.updateScroll(elementValues.scroll);
+        }, 2000);
     }
 
     let setScores = (scoreCode) => {
-        if (elementValues.itme2.keyPair[0] === null) {
-            elementValues.itme2.keyPair = [0,0,9,0];
-        }
+        setTimeout(() => {
+            switch (scoreCode) {
+                case 0:
+                    elementValues.scores = [0, 9];
+                    break;
+
+                case 1:
+                    elementValues.scrores[1]--;
+                    break;
+
+                case 2:
+                    elementValues.scores[0]++;
+                    initialize();
+                    break;
+
+                case 3:
+                    elementValues.scores[1] = 9;
+                    initialize();
+                    break;
+            }
+            UIcon.displayScores(elementValues.scores);
+        }, 2000);   
     }
 
-
-    // let isEasy = true;
-    
-    // document.querySelector(`.hard`).addEventListener(`click`, () => {
-    //     isEasy = false;
-    // });
-
-    // dataController.parseObject;
-    
-        
-
-    // document.querySelector(`.letter-pick`).addEventListener(`keyup`, () => {
-    //     let x = event.which || event.key,
-    //         press = String.fromCharCode(x),
-    //         choice = press.toLowerCase();
-    //     console.log(choice);
-    // });
-
     return {
-        initialize: function () {
-            console.log('Word Guess started');
-            elementValues.itme2.keyPair = [null,null,null,null];
+        initialize: function (resetCode) {
+            if (resetCode === 0) {
+                setScores(0);
+            }
+            setObject();
+            createScrollString();
+            setCenter();
             loadHint();
-            setScores();
-            setQuestion();
-            //UIcon.startLetterPicker(0);
             setupEventListeners();
+           
         }
     }
 })(dataController, UIcontroller);
 
-
-mainController.initialize();
+mainController.initialize(0);
 
 /* ACCESS
     testData["pompeii"].question
     testData["pompeii"].hint[1] */
+    
+
+/*  FOR DOMs THAT HAVE MUCH LONGER LISTS
+    let scoreList = document.querySelector(`.stats`).getElementsByTagName('li'),
+    i = 0;
+    for (let key in initScores) {
+        scoreList[i].innerHTML = initScores[key];
+        i++;
+    } */
