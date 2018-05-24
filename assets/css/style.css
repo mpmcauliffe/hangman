@@ -29,6 +29,40 @@ body {
     position: absolute;
     width: 47%;
     transform: translateX(27vw);
+    z-index: 10;
+}
+.cover-img {
+    position: absolute;
+    width: 100%;
+    height: 110%;
+    top: 0;
+    left: 0;
+}
+h3 {
+    font-family: 'Asap', sans-serif;
+    font-size: 8rem;
+    position: absolute;
+    z-index: 9;
+    transform: translate(22vw,-63vh);
+    opacity: .2;
+}
+@keyframes fadeout {
+    20% {
+        opacity: .8;
+    }
+    40% {
+        opacity: .6;
+    }
+    60% {
+        opacity: .4;
+    }
+    80% {
+        opacity: .2;
+    }
+    
+    100% {
+        opacity: .01; 
+    }
 }
 
 

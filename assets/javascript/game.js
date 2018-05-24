@@ -59,6 +59,15 @@ let dataController = (() => {
     }  
 })();
 
+
+/* ===================================================================================
+=======================================================================================
+=======================================================================================
+====================================================================================== */
+
+
+
+
    
 //let wordArray = ["pompeii", "hippocrates", "persephone", "hannibal"],
 /* INTERNAL CALL INSTANT & MAINCONTROLLER
@@ -88,7 +97,7 @@ let UIcontroller = (() => {
             
             setTimeout(() => {
                 document.querySelector(`.letter-pick`).innerHTML = "_";
-            }, 3500);
+            }, 2500);
         },
         printHint: function(newHint) {
             console.log(newHint) 
@@ -100,10 +109,19 @@ let UIcontroller = (() => {
             
             setTimeout(() => {
                 document.getElementById(`message`).classList.add(`log`);
-            }, 3500);
+            }, 2500);
         }
     }
 })();
+
+
+
+
+
+/* ===================================================================================
+=======================================================================================
+=======================================================================================
+====================================================================================== */
 
 
 let mainController = ((dataCon, UIcon) => {
@@ -116,7 +134,7 @@ let mainController = ((dataCon, UIcon) => {
         //scroll
         scroll: ["","",""],
         //score list
-        scores: [0, 0],
+        scores: [null, null],
         //lower center
         center: ["","",""],
         //hint
@@ -128,8 +146,7 @@ let mainController = ((dataCon, UIcon) => {
         document.addEventListener(`keyup`, (event) => {
             let x          = event.which || event.key,
                 inputValue = String.fromCharCode(x);
-            
-            evaluateInput(inputValue);
+            regulator(inputValue);
         });
 
         document.querySelector(`.reset-hint`).addEventListener(`click`, () => {
@@ -178,6 +195,7 @@ let mainController = ((dataCon, UIcon) => {
         UIcon.printHint(elementValues.hint);
     }
     let evaluateInput = (inputValue) => {
+        console.log(inputValue);
         let constructWord = elementValues.scroll[0],
             letterSet     = elementValues.scroll[1],
             lettersUsed   = elementValues.scroll[2],
@@ -239,7 +257,7 @@ let mainController = ((dataCon, UIcon) => {
         
         setTimeout(() => {
             UIcon.updateScroll(elementValues.scroll);
-        }, 2000);
+        }, 1000);
     }
 
     let setScores = (scoreCode) => {
@@ -252,27 +270,57 @@ let mainController = ((dataCon, UIcon) => {
             switch (scoreCode) {
                 case 0:
                     elementValues.scores = [0, 9];
+                    UIcon.displayScores(elementValues.scores);
                     break;
 
                 case 1:
                     remaining--;
+                    elementValues.scores = [word, remaining];
+                    UIcon.displayScores(elementValues.scores);
                     break;
 
                 case 2:
                     word++;
-                    mainController.initialize();
+                    remaining = 9;
+                    elementValues.scores = [word, remaining];
+                    UIcon.displayScores(elementValues.scores);
+                    setTimeout(() => {
+                        mainController.initialize();
+                    }, 1000); 
                     break;
 
                 case 3:
                     remaining = 9;
-                    mainController.initialize();
-                    break;
+                    elementValues.scores = [word, remaining];
+                    UIcon.displayScores(elementValues.scores); 
+                    setTimeout(() => {
+                        mainController.initialize();
+                    }, 1000);
+                    break;  
             }
-            UIcon.displayScores(elementValues.scores);
         }, 2000);
-        
-        elementValues.scores = [word, remaining];
     }
+
+    let regulator = debounce(function(inputValue) {
+        evaluateInput(inputValue);
+    }, 250)
+
+    function debounce(func, wait, immediate) {
+        var timeout;
+        return function () {
+            var context = this, args = arguments;
+            var later = function () {
+                timeout = null;
+                if (!immediate) func.apply(context, args);
+            };
+            var callNow = immediate && !timeout;
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+            if (callNow) func.apply(context, args);
+        };
+    };
+
+    
 
     return {
         initialize: function (resetCode) {
@@ -289,7 +337,24 @@ let mainController = ((dataCon, UIcon) => {
     }
 })(dataController, UIcontroller);
 
-mainController.initialize(0);
+
+window.addEventListener(`keyup`, () => {
+    let screenDOM = document.querySelector(`.starter-cover`);
+    screenDOM.style.animation = `1.5s fadeout .5s forwards`;
+    setTimeout(() => {    
+        screenDOM.style.display = `none`;
+        mainController.initialize(0);
+    }, 1000);
+}, { once: true });
+
+
+
+
+
+
+
+
+
 
 /* ACCESS
     testData["pompeii"].question
