@@ -52,7 +52,7 @@ body {
     width: 90%;
     text-align: center;
     position: absolute;
-    font-size: 1000%;
+    font-size: 900%;
     line-height: 80%;
     color: #f9f9f9;
     text-shadow: 0 0 1.2rem rgba(0,0,0, 1);
@@ -61,20 +61,10 @@ body {
 
 /* LETTERS CALLED  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
-/* .fill-array {
-    display: flex;
-    height: 10vh;
-    width: 63%;
-    justify-content: center;
-    margin-bottom: 1rem;
-    border-radius: 1rem;
-    align-self: center;
-    border: .1rem solid #9a9a9a;
-    background: #c8c8c8;
-} */
+
 .inner-fill {
     font-family: 'Asap', sans-serif;
-    font-size: 700%;
+    font-size: 650%;
     color: #7c7c7c;
     line-height: 80%;
     text-align: center;

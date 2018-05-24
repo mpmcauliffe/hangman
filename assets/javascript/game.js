@@ -95,12 +95,11 @@ let UIcontroller = (() => {
             document.getElementById(`hint`).innerHTML = newHint;
         },
         outputMessage: function(option) {
-            let messageOut = document.querySelector(`message`);    
-            messageOut.classList.remove(`.log`);
-            messageOut.innerHTML = option;
+            document.getElementById(`message`).classList.remove(`log`);    
+            document.getElementById(`message`).innerHTML = option;
             
             setTimeout(() => {
-                messageOut.classList.add(`.log`);
+                document.getElementById(`message`).classList.add(`log`);
             }, 3500);
         }
     }
@@ -188,21 +187,35 @@ let mainController = ((dataCon, UIcon) => {
             testLetter2 = lettersUsed.includes(inputValue),
             inputCheck  = 0;
 
-        if (inputValue !== "_") {
+        let exp = /[^A-Z]/;
+
+
+        if (inputValue !== "_" && inputValue !== " ") {
             if(!testLetter1 && !testLetter2) {
-                for(let i = 0; i < constructWord.length; i++){
-                    if(inputValue === constructWord[i]) {
-                        letterSet.replace("_", inputValue); 
-                        inputCheck++;
+                if(constructWord.includes(inputValue)){
+                    for(let i = 0; i < constructWord.length; i++){
+                        if(inputValue === constructWord[i]) {
+                            function strBuild(letterSet, i, inputValue) {
+                                return letterSet.substring(0, i) + inputValue + letterSet.substring(i + 1);
+                            }
+                            letterSet = strBuild(letterSet, i, inputValue);
+                            inputCheck++;
+                        }
+                    }
+                    if (inputCheck > 0) {
+                        message = "Correct!"
                     }
                 }
-                if (inputCheck > 0) {
-                    message = "Correct!"
-                }
             }        
-            if(inputCheck === 0 || testLetter1 || testLetter2) {
+            if(inputCheck === 0) {
                 lettersUsed = lettersUsed.replace("_", inputValue);
                 message = "Incorrect";
+                setScores(1);
+            } else if (testLetter1 || testLetter2) {
+                message = "You've used that value already";
+                setScores(1);
+            } else if (exp.test(inputValue)) {
+                message = "Use letters!";
                 setScores(1);
             }
         }
@@ -210,9 +223,9 @@ let mainController = ((dataCon, UIcon) => {
             message = "You guessed it!";
             setScores(2);
         } else if (lettersUsed.indexOf("_") === -1) {
-            message = "You missed it."
+            message = "Out of tries."
             setScores(3);
-        }
+        } 
 
         elementValues.scroll = [constructWord, letterSet, lettersUsed];
         elementValues.center[0] = inputValue;
@@ -230,6 +243,11 @@ let mainController = ((dataCon, UIcon) => {
     }
 
     let setScores = (scoreCode) => {
+
+        let word = elementValues.scores[0],
+            remaining = elementValues.scores[1];
+
+
         setTimeout(() => {
             switch (scoreCode) {
                 case 0:
@@ -237,21 +255,23 @@ let mainController = ((dataCon, UIcon) => {
                     break;
 
                 case 1:
-                    elementValues.scrores[1]--;
+                    remaining--;
                     break;
 
                 case 2:
-                    elementValues.scores[0]++;
-                    initialize();
+                    word++;
+                    mainController.initialize();
                     break;
 
                 case 3:
-                    elementValues.scores[1] = 9;
-                    initialize();
+                    remaining = 9;
+                    mainController.initialize();
                     break;
             }
             UIcon.displayScores(elementValues.scores);
-        }, 2000);   
+        }, 2000);
+        
+        elementValues.scores = [word, remaining];
     }
 
     return {
@@ -283,3 +303,15 @@ mainController.initialize(0);
         scoreList[i].innerHTML = initScores[key];
         i++;
     } */
+
+// function strBuild(n, str) {
+//     if (n < 1) { return str; }
+
+//     if (n % 2 !== 0) {
+//         str += "_";
+//     } else {
+//         str += " ";
+//     }
+
+//     return strBuild((n-1), str);
+// }
