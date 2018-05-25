@@ -100,8 +100,19 @@ let UIcontroller = (() => {
             }, 2500);
         },
         printHint: function(newHint) {
-            console.log(newHint) 
-            document.getElementById(`hint`).innerHTML = newHint;
+            hntBtn = document.querySelector(`.reset-hint`);
+            if(!newHint) {
+                document.getElementById(`hint`).innerHTML = `No hints in hard mode`;
+                
+                hntBtn.style.background = `#c8c8c8`;
+                hntBtn.style.color = `#afafaf`;
+                //hntBtn.style.border = `#afafaf`;
+            } else {
+                document.getElementById(`hint`).innerHTML = newHint;
+                hntBtn.style.background = `rgba(216, 219, 52, 0.4)`;
+                hntBtn.style.color = `#303415`;
+                //hntBtn.style.border = `#303415`;
+            } 
         },
         outputMessage: function(option) {
             document.getElementById(`message`).classList.remove(`log`);    
@@ -110,6 +121,18 @@ let UIcontroller = (() => {
             setTimeout(() => {
                 document.getElementById(`message`).classList.add(`log`);
             }, 2500);
+        },
+        updateMode: function(mode) {
+            modeBtn = document.querySelector(`.hard`);
+            //style.backgroundColor
+            if(mode) {
+                modeBtn.style.background = "rgba(219, 52, 152, .4)";
+                modeBtn.innerHTML = `Reset Hard`;
+            } else {
+                modeBtn.style.background = "rgba(52, 219, 152, .4)";
+                modeBtn.innerHTML = `Reset Easy`;
+            }
+           
         }
     }
 })();
@@ -125,7 +148,7 @@ let UIcontroller = (() => {
 
 
 let mainController = ((dataCon, UIcon) => {
-    
+
     let setObject = () => {
         gameObject = dataCon.parseObject();
     }
@@ -138,7 +161,9 @@ let mainController = ((dataCon, UIcon) => {
         //lower center
         center: ["","",""],
         //hint
-        hint:  ""
+        hint:  "",
+        //easy / hard mode
+        mode: true
     } 
    
     let setupEventListeners = () => {
@@ -146,8 +171,16 @@ let mainController = ((dataCon, UIcon) => {
         document.addEventListener(`keyup`, (event) => {
             let x          = event.which || event.key,
                 inputValue = String.fromCharCode(x);
-            regulator(inputValue);
+            regulator(inputValue); // debouncer
         });
+
+        document.querySelector(`.hard`).addEventListener(`click`, () => {
+            regResetMode(); // debouncer
+        });
+
+        document.querySelector(`.reset`).addEventListener(`click`, () => {
+            mainController.initialize(0);
+        })
 
         document.querySelector(`.reset-hint`).addEventListener(`click`, () => {
             loadHint();
@@ -176,7 +209,12 @@ let mainController = ((dataCon, UIcon) => {
             }
         }
         initialScroll = initialScroll.toUpperCase();
+
+        let modeHandler = elementValues.mode;
         let lettersUsed = "_ _ _ _ _ _ _ _ _";
+        if (!modeHandler) {
+            lettersUsed = "_ _ _ _ _ _";
+        } 
 
         elementValues.scroll = [initialScroll, loadString, lettersUsed];
     
@@ -189,10 +227,14 @@ let mainController = ((dataCon, UIcon) => {
         UIcon.updateCenter(elementValues.center);
     }
     let loadHint = () => {
+        if(elementValues.mode){
             let indexRandomHint = Math.floor(Math.random() * 3);
                 elementValues.hint = gameObject.hint[indexRandomHint];
-    
-        UIcon.printHint(elementValues.hint);
+            UIcon.printHint(elementValues.hint);
+        } else {
+            UIcon.printHint(false);
+        }
+        
     }
     let evaluateInput = (inputValue) => {
         console.log(inputValue);
@@ -269,7 +311,12 @@ let mainController = ((dataCon, UIcon) => {
         setTimeout(() => {
             switch (scoreCode) {
                 case 0:
-                    elementValues.scores = [0, 9];
+                    let modeHandler = elementValues.mode;
+                    if(modeHandler){
+                        elementValues.scores = [0, 9];
+                    } else {
+                        elementValues.scores = [0, 6];
+                    }
                     UIcon.displayScores(elementValues.scores);
                     break;
 
@@ -303,6 +350,16 @@ let mainController = ((dataCon, UIcon) => {
 
     let regulator = debounce(function(inputValue) {
         evaluateInput(inputValue);
+    }, 250)
+
+    let regResetMode = debounce(function () {
+        modeHandler = elementValues.mode;
+        if (modeHandler) { modeHandler = false; }
+        else { modeHandler = true; }
+        elementValues.mode = modeHandler;
+
+        UIcon.updateMode(elementValues.mode);
+        mainController.initialize(0);
     }, 250)
 
     function debounce(func, wait, immediate) {

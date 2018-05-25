@@ -40,11 +40,11 @@ body {
 }
 h3 {
     font-family: 'Asap', sans-serif;
-    font-size: 8rem;
+    font-size: 6rem;
     position: absolute;
     z-index: 9;
-    transform: translate(22vw,-63vh);
-    opacity: .2;
+    transform: translate(30vw,-63vh);
+    opacity: .3;
 }
 @keyframes fadeout {
     20% {
@@ -184,7 +184,7 @@ h3 {
     background: rgba(52, 219, 152, .8);
 }
 .hard {
-    background: rgba(219, 52, 152, .4);
+    background: #db349866;
     transform: translate(10vw, 27vh);
 }
 .hard:hover {
@@ -258,6 +258,9 @@ h6 {
 /*====================================================================================*/
 
 @media all and (max-width: 1200px) {
+    body {
+        overflow-x: hidden;
+    }
     .scroll-fill {
         font-size: 700%;
         text-align: center;
@@ -287,9 +290,19 @@ h6 {
     .top-half {
         flex-basis: 5rem;
     }
+    h3 {
+        font-size: 5rem;
+    }
+    .cover-img {
+        width: 150%;
+        height: 175%;
+    }
 }
 
 @media all and (max-width: 980px){
+    body {
+        overflow-x: hidden;
+    }
     .left {
         flex-basis: 40%;
         order: 1;
@@ -310,9 +323,19 @@ h6 {
         flex-basis: 95%;
         order: 0
     }
+    h3 {
+        font-size: 4rem;
+    }
+    .cover-img {
+        width: 150%;
+        height: 175%;
+    }
 }
 
 @media all and (max-width: 768px) {
+    body {
+        overflow-x: hidden;
+    }
     .scroll-fill {
         font-size: 550%
     }
@@ -329,8 +352,21 @@ h6 {
     .top-half {
         flex-basis: 5rem;
     }
+     h3 {
+        font-size: 3rem;
+    }
+    h6 {
+        transform: translateX(30vw);
+    }
+    .cover-img {
+        width: 200%;
+        height: 150%;
+    }
 }
 @media all and (max-width: 640px){
+    body {
+        overflow-x: hidden;
+    }
     .scroll-fill {
         font-size: 600%;
         transform: translateY(3vh)
@@ -344,8 +380,18 @@ h6 {
     .reset-hint {
         transform: translateY(33vh);
     }
+     h3 {
+        font-size: 3rem;
+    }
+     .cover-img {
+        width: 300%;
+        height: 230%;
+    }
 }
 @media all and (max-width: 480px){
+    body {
+        overflow-x: hidden;
+    }
     .scroll-fill {
         font-size: 400%
     }
@@ -367,8 +413,22 @@ h6 {
         flex-basis: 80%;
         height: 100%;
     }
+    h3 {
+        font-size: 2rem;
+        opacity: .5
+    }
+    h6 {
+        transform: translate(30vw, -3vh);
+    }
+     .cover-img {
+        width: 500%;
+        height: 230%;
+    }
 }
 @media all and (max-width: 360px) {
+    body {
+        overflow-x: hidden;
+    }
     .scroll-fill {
         font-size: 300%
     }
@@ -377,5 +437,9 @@ h6 {
     }
      .letter-pick {
         font-size: 1800%;
+    }
+    .cover-img {
+        width: 500%;
+        height: 230%;
     }
 }
