@@ -1,5 +1,4 @@
 
-/* immediately invoked function expressions */
 
 
 /* INTERNAL CALL INSTANT & MAINCONTROLLER
@@ -42,11 +41,89 @@ let dataController = (() => {
             hint: ["The general shares his name with a character from a 1991 thriller that won many awards.",
                 "His name is similar to cannonball.",
                 "This general's name has 3 distinct vowels in it."]
+        },
+        "word5": {
+            name: "hellespont",
+            question: "A narrow body of water separating Europe from Asia Minor",
+            hint: ["The name of this body of water has 3 distinct syllables",
+                    "Alexander the Great crossed this body of water in 334 BC",
+                    "This word is means 'Sea of Helle' in Greek"]
+        },
+        "word6": {
+            name: "phalanx",
+            question: "A battle formation of rows in which infantry soldiers wielded shields and long spears",
+            hint: ["This fomration was used by the by the Greeks, Romans",
+                   "This formation was used in the battle of Thermopylae and depicted in the 2007 movie, 300",
+                   "This word rhymes with 'say thanks'"]
+        },
+        "word7": {
+            name: "giza",
+            question: "Built for the Pharoah Khufu, it is the oldest and largest pyramid, what is its name?",
+            hint:["The name of this pyramid has 2 distinct vowels",
+                  "In discussion, the name often carries the prefix 'the great pyramid of ...",
+                  "This pyramid's name rhymes with 'geezer'...especially if you are from Massachusetts"]
+        },
+        "word8": {
+            name: "babylon",
+            question: "This ancient Kingdom was famous for its hanging gardens and its beautiful gates",
+            hint: ["A 1990s sci-fi television was named after this kingdom",
+                   "Two kings of this ancient kingdom had the pleasure of being named Nebuchadnezzar",
+                   "A word in modern English meaning 'difficult to understand' is derived from the name of this kingdom"]
+        },
+        "word9": {
+            name: "ganges",
+            question: "Towards the end of his conquest, Alexander's troops and top advisors convinced him to turn back at this river.",
+            hint: ["The river is located on the Indian subcontinent",
+                   "The name of this river rhymes with Angie's",
+                   "This river travels through India and Bangladesh"]
+        },
+        "word10": {
+            name: "tutankhamun",
+            question: "This young Pharoah became famous when his tomb was discovered in 1922.",
+            hint: ["This Pharoah is often referred to as King Tut",
+                   "This Pharoah's name sorta rhymes with 'cattleman'",
+                   "His name has 4 syllables"] 
+        },
+        "word11": {
+            name: "romulus",
+            question: "When establishing what became known as the city of Rome, he killed his brother Remus.",
+            hint: ["His name sounds similar to an extraterrestrial race in Star Trek",
+                   "His name has 3 syllables",
+                   "His name sorta rhymes with 'communist'"]
+        },
+        "word12": {
+            name: "achaemenid",
+            question: "This dynasty of the Persian Empire refers to period when it was founded by Cyrus I to King Darius III",
+            hint: ["The name of this dynasty sounds similar to 'arachnid'",
+                   "This empire was conquered by Alexander the Great in 330 BC",
+                   "The name of this dynasty has 3 syllables"]
+        },
+        "word13": {
+            name: "artemis",
+            question: "This Ephasian temple was burned to the ground by a madman around 350 BC",
+            hint: ["This temple was one of the seven wonders of the anchient world",
+                   "It was dedicated to the Ephasian Goddess of Fertility who shares a common name with Greek goddess",
+                   "The name of this temple sorta rhymes with 'chrysemys'"]
+        },
+        "word14": {
+            name: "melos",
+            question: "This Agean island was invaded by Athens during the Peloponnesian War in 416 BC",
+            hint: ["The invasion was annotated by Thucydides",
+                   "Thucydides wrote the hard reality, 'the strong do what they will, the week suffer what they must'",
+                   "The name of this island rhymes with 'helos'"]
+        },
+        "word15": {
+            name: "ptolemy",
+            question: "He served as a general under Alexander the Great, and his descendant was Queen Cleopatra of Egypt.",
+            hint: ["He shares a common name with a Greco-Roman astronomer, who devoloped a heliocentric model of the universe",
+                   "His name 3 syllables and also begins with a silent consonant",
+                   "His name rhymes with colony"]
         }
+
     }
     return {
         parseObject: function(){
-            let indexRandomProperty = Math.floor(Math.random() * 4) + 1,
+            let indexRandomProperty = Math.floor(Math.random() * 15) + 1,
                 propertyName    = `word${indexRandomProperty}`;
             
             let randomObject = {
@@ -68,18 +145,9 @@ let dataController = (() => {
 
 
 
-   
-//let wordArray = ["pompeii", "hippocrates", "persephone", "hannibal"],
-/* INTERNAL CALL INSTANT & MAINCONTROLLER
-    wordObject created that contains all data with the property word<number>
-        nested in the word property are 3 properties of name (the answer to word guess),
-        question (the question provieded to guess the name), and hint (an array of 3 hints
-        randomly provided in easy mode).
-    parseObject is a function of DATACONTROLLER that randomizes the word<number> property
-        and the hint array. This function also collects name data and the answer data.
-    RETURNS an object to MAINCONTROLLER called randomObject
-            randomObject consist of 1 first level property of wordObject and its sub-
-            properties with it */
+/* INTERNAL CALL INSTANT & MAINCONTROLLER 
+    updates DOM with information passed from MAINCONTOLLER()
+*/
 let UIcontroller = (() => {
     return {
         updateScroll: function(scrollStrings) {
@@ -146,6 +214,15 @@ let UIcontroller = (() => {
 =======================================================================================
 ====================================================================================== */
 
+
+
+/* CALL FROM WINDOW OBJECT START SCREEN
+    maintains the flow of the game by 
+        -implementing properties of the wordObject 
+        -handling events and debouncing
+        -making calls to UIcontroller and dataController when necessary
+        -storing durable variables in object 
+        -maintaining resets on the game and game data*/
 
 let mainController = ((dataCon, UIcon) => {
 
@@ -394,7 +471,9 @@ let mainController = ((dataCon, UIcon) => {
     }
 })(dataController, UIcontroller);
 
-
+/* RUNS ON STARTUP
+    startpage simple graphic and keyup event
+     */
 window.addEventListener(`keyup`, () => {
     let screenDOM = document.querySelector(`.starter-cover`);
     screenDOM.style.animation = `1.5s fadeout .5s forwards`;
