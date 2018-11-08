@@ -386,9 +386,9 @@ let mainController = ((dataCon, UIcon) => {
 
 
         setTimeout(() => {
+            let modeHandler = elementValues.mode;
             switch (scoreCode) {
-                case 0:
-                    let modeHandler = elementValues.mode;
+                case 0: 
                     if(modeHandler){
                         elementValues.scores = [0, 9];
                     } else {
@@ -405,7 +405,11 @@ let mainController = ((dataCon, UIcon) => {
 
                 case 2:
                     word++;
-                    remaining = 9;
+                    if (modeHandler) {
+                        elementValues.scores = [0, 9];
+                    } else {
+                        elementValues.scores = [0, 6];
+                    }
                     elementValues.scores = [word, remaining];
                     UIcon.displayScores(elementValues.scores);
                     setTimeout(() => {
@@ -414,7 +418,11 @@ let mainController = ((dataCon, UIcon) => {
                     break;
 
                 case 3:
-                    remaining = 9;
+                    if (modeHandler) {
+                        elementValues.scores = [0, 9];
+                    } else {
+                        elementValues.scores = [0, 6];
+                    }
                     elementValues.scores = [word, remaining];
                     UIcon.displayScores(elementValues.scores); 
                     setTimeout(() => {
